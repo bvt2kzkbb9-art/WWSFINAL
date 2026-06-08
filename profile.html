@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+  <title>Profil — Weekend Warrior Social</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<div class="app-container">
+  <header class="top-bar">
+    <div class="top-bar-left"><h1 class="app-title">👤 Mój Profil</h1></div>
+    <nav class="top-bar-right">
+      <button id="logout-btn" class="icon-btn" aria-label="Wyloguj"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4m7 14l5-5m0 0l-5-5"/></svg></button>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <div class="page-container">
+      <!-- PROFILE HEADER -->
+      <div class="profile-header">
+        <div class="profile-avatar-lg" id="profile-avatar">⚔️</div>
+        <h2 id="profile-name" class="profile-name">Wojownik</h2>
+        <p id="profile-username" class="profile-username">@wojownik</p>
+      </div>
+
+      <!-- STATS -->
+      <section class="section">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number" id="stat-level">1</div>
+            <div class="stat-name">Poziom</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="stat-xp">0</div>
+            <div class="stat-name">XP</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="stat-rank">Rookie</div>
+            <div class="stat-name">Ranga</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="stat-posts">0</div>
+            <div class="stat-name">Posty</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- BIO -->
+      <section class="section">
+        <h3 class="section-title">O mnie</h3>
+        <textarea id="profile-bio" class="input" placeholder="Napisz coś o sobie..." style="height: 80px;"></textarea>
+        <button id="save-bio-btn" class="btn btn-primary" style="margin-top: 1rem;">Zapisz</button>
+      </section>
+
+      <!-- ACHIEVEMENTS -->
+      <section class="section">
+        <h3 class="section-title">🏅 Osiągnięcia</h3>
+        <div id="achievements-list" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;"></div>
+      </section>
+    </div>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><span class="nav-icon">🏰</span><span class="nav-label">Arena</span></a>
+    <a href="feed.html" class="nav-item"><span class="nav-icon">📜</span><span class="nav-label">Kroniki</span></a>
+    <a href="challenges.html" class="nav-item nav-hero"><span class="nav-icon">⚔️</span><span class="nav-label">Misje</span></a>
+    <a href="ranking.html" class="nav-item"><span class="nav-icon">🏆</span><span class="nav-label">Chwała</span></a>
+  </nav>
+</div>
+
+<script type="module">
+  import { checkAuth, logout } from './js/auth.js';
+  import { loadProfile } from './js/profile.js';
+
+  checkAuth((user, userData) => {
+    if (!user) window.location.href = 'login.html';
+    else loadProfile(user, userData);
+  });
+
+  document.getElementById('logout-btn').addEventListener('click', () => logout());
+</script>
+</body>
+</html>
