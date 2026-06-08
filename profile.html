@@ -11,20 +11,22 @@
   <header class="top-bar">
     <div class="top-bar-left"><h1 class="app-title">👤 Mój Profil</h1></div>
     <nav class="top-bar-right">
-      <button id="logout-btn" class="icon-btn" aria-label="Wyloguj"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4m7 14l5-5m0 0l-5-5"/></svg></button>
+      <button id="logout-btn" class="icon-btn" aria-label="Wyloguj">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4m7 14l5-5m0 0l-5-5"/>
+        </svg>
+      </button>
     </nav>
   </header>
 
   <main class="main-content">
     <div class="page-container">
-      <!-- PROFILE HEADER -->
       <div class="profile-header">
         <div class="profile-avatar-lg" id="profile-avatar">⚔️</div>
         <h2 id="profile-name" class="profile-name">Wojownik</h2>
         <p id="profile-username" class="profile-username">@wojownik</p>
       </div>
 
-      <!-- STATS -->
       <section class="section">
         <div class="stats-grid">
           <div class="stat-card">
@@ -46,14 +48,12 @@
         </div>
       </section>
 
-      <!-- BIO -->
       <section class="section">
         <h3 class="section-title">O mnie</h3>
         <textarea id="profile-bio" class="input" placeholder="Napisz coś o sobie..." style="height: 80px;"></textarea>
         <button id="save-bio-btn" class="btn btn-primary" style="margin-top: 1rem;">Zapisz</button>
       </section>
 
-      <!-- ACHIEVEMENTS -->
       <section class="section">
         <h3 class="section-title">🏅 Osiągnięcia</h3>
         <div id="achievements-list" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;"></div>
@@ -70,15 +70,45 @@
 </div>
 
 <script type="module">
-  import { checkAuth, logout } from './js/auth.js';
-  import { loadProfile } from './js/profile.js';
+  import { checkAuth, logout, showToast } from './js/auth.js';
+  import { db, COL } from './js/firebase.js';
+  import { doc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
   checkAuth((user, userData) => {
-    if (!user) window.location.href = 'login.html';
-    else loadProfile(user, userData);
+    if (!user) {
+      window.location.href = 'login.html';
+      return;
+    }
+
+    document.getElementById('profile-name').textContent = userData.displayName || 'Wojownik';
+    document.getElementById('profile-username').textContent = '@' + (userData.username || user.email.split('@')[0]);
+    document.getElementById('stat-level').textContent = userData.level || 1;
+    document.getElementById('stat-xp').textContent = userData.points || 0;
+    document.getElementById('stat-rank').textContent = userData.rank || 'Rookie';
+    document.getElementById('stat-posts').textContent = userData.postsCount || 0;
+    document.getElementById('profile-bio').value = userData.bio || '';
+    
+    const avatar = (userData.displayName || 'W').charAt(0).toUpperCase();
+    document.getElementById('profile-avatar').textContent = avatar;
+
+    const achievementsContainer = document.getElementById('achievements-list');
+    const achievements = ['🏅', '⭐', '🎖️', '🏆', '💎', '🔥', '⚔️', '👑'];
+    achievementsContainer.innerHTML = achievements.map(a => `<div style="font-size: 32px; text-align: center;">${a}</div>`).join('');
+
+    document.getElementById('save-bio-btn').addEventListener('click', async () => {
+      const bio = document.getElementById('profile-bio').value;
+      try {
+        await updateDoc(doc(db, COL.USERS, user.uid), { bio });
+        showToast('✅ Bio zaktualizowane', 'success');
+      } catch (err) {
+        showToast('❌ Błąd', 'error');
+      }
+    });
   });
 
-  document.getElementById('logout-btn').addEventListener('click', () => logout());
+  document.getElementById('logout-btn').addEventListener('click', () => {
+    logout();
+  });
 </script>
 </body>
 </html>
