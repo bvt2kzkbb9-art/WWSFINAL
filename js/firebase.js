@@ -10,14 +10,27 @@ import {
   query, where, orderBy, limit, onSnapshot, serverTimestamp, arrayUnion,
 } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyA9I-uUmWLLjq8WNrAgnlmXQxiAgRR1U98",
-  authDomain: "weekend-warrior-social-ed3d0.firebaseapp.com",
-  projectId: "weekend-warrior-social-ed3d0",
-  storageBucket: "weekend-warrior-social-ed3d0.firebasestorage.app",
-  messagingSenderId: "487311448505",
-  appId: "1:487311448505:web:ffbe035b92efa8fc193e68",
+  apiKey: "AIzaSyBHwVgFJgsvOp1ZgU4nQetHM_KgzxeXzZI",
+  authDomain: "weekend-warrior-social-v2.firebaseapp.com",
+  projectId: "weekend-warrior-social-v2",
+  storageBucket: "weekend-warrior-social-v2.firebasestorage.app",
+  messagingSenderId: "147800031459",
+  appId: "1:147800031459:web:d72e1fc2b81b8b152405d6",
+  measurementId: "G-Q4T1JG4SQE"
 };
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
