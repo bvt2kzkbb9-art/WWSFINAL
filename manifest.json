@@ -1,0 +1,19 @@
+{
+  "name": "Weekend Warrior Social",
+  "short_name": "WWS",
+  "description": "Arena Wojowników — RPG Social Network",
+  "start_url": "/weekend-warrior-social-v2/index.html",
+  "scope": "/weekend-warrior-social-v2/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0f0d0a",
+  "theme_color": "#d4af37",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%230f0d0a' width='192' height='192'/><text x='50%' y='50%' font-size='120' text-anchor='middle' dominant-baseline='middle' fill='%23d4af37'>⚔️</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
