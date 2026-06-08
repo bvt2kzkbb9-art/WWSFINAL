@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+  <title>Znajomi — Weekend Warrior Social</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<div class="app-container">
+  <header class="top-bar">
+    <div class="top-bar-left"><h1 class="app-title">🤝 Znajomi</h1></div>
+    <nav class="top-bar-right">
+      <button id="search-btn" class="icon-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
+      <a href="profile.html" class="avatar-btn" id="top-avatar">⚔️</a>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <div class="page-container">
+      <!-- TABS -->
+      <section class="section">
+        <div class="tabs">
+          <button class="tab-btn active" data-tab="friends">👥 Znajomi</button>
+          <button class="tab-btn" data-tab="requests">📬 Zaproszenia</button>
+          <button class="tab-btn" data-tab="suggestions">💡 Sugestie</button>
+        </div>
+      </section>
+
+      <!-- CONTENT -->
+      <div id="friends-content"></div>
+    </div>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><span class="nav-icon">🏰</span><span class="nav-label">Arena</span></a>
+    <a href="feed.html" class="nav-item"><span class="nav-icon">📜</span><span class="nav-label">Kroniki</span></a>
+    <a href="challenges.html" class="nav-item nav-hero"><span class="nav-icon">⚔️</span><span class="nav-label">Misje</span></a>
+    <a href="ranking.html" class="nav-item"><span class="nav-icon">🏆</span><span class="nav-label">Chwała</span></a>
+  </nav>
+</div>
+
+<script type="module">
+  import { checkAuth } from './js/auth.js';
+  import { loadFriends } from './js/friends.js';
+
+  checkAuth((user) => {
+    if (!user) window.location.href = 'login.html';
+    else loadFriends();
+  });
+</script>
+</body>
+</html>
