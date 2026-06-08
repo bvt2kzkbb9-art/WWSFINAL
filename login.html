@@ -3,60 +3,115 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-  <title>Logowanie — Weekend Warrior Social</title>
+  <title>Profil — Weekend Warrior Social</title>
   <link rel="stylesheet" href="css/style.css"/>
 </head>
-<body style="background: var(--bg-primary); display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 1rem;">
+<body>
+<div class="app-container">
+  <header class="top-bar">
+    <div class="top-bar-left"><h1 class="app-title">👤 Mój Profil</h1></div>
+    <nav class="top-bar-right">
+      <button id="logout-btn" class="icon-btn" aria-label="Wyloguj">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4m7 14l5-5m0 0l-5-5"/>
+        </svg>
+      </button>
+    </nav>
+  </header>
 
-<div style="width: 100%; max-width: 400px;">
-  <div style="background: linear-gradient(135deg, var(--bg-card), var(--bg-tertiary)); border: 1px solid var(--gold-dark); border-radius: 12px; padding: 2rem; text-align: center;">
-    
-    <h1 style="font-size: 32px; margin-bottom: 1rem;">⚔️</h1>
-    <h2 style="font-size: 24px; color: var(--gold-light); margin-bottom: 0.5rem;">Arena Wojowników</h2>
-    <p style="color: var(--text-secondary); margin-bottom: 2rem;">Dołącz. Walcz. Zwyciężaj.</p>
+  <main class="main-content">
+    <div class="page-container">
+      <div class="profile-header">
+        <div class="profile-avatar-lg" id="profile-avatar">⚔️</div>
+        <h2 id="profile-name" class="profile-name">Wojownik</h2>
+        <p id="profile-username" class="profile-username">@wojownik</p>
+      </div>
 
-    <form id="login-form" style="display: flex; flex-direction: column; gap: 1rem;">
-      <input type="email" id="email" placeholder="Email" required style="padding: 12px; background: var(--bg-tertiary); border: 1px solid var(--gold-dark); border-radius: 8px; color: var(--text-primary); font-size: 16px;"/>
-      <input type="password" id="password" placeholder="Hasło" required style="padding: 12px; background: var(--bg-tertiary); border: 1px solid var(--gold-dark); border-radius: 8px; color: var(--text-primary); font-size: 16px;"/>
-      <button type="submit" style="padding: 12px; background: linear-gradient(135deg, var(--gold-primary), var(--gold-light)); color: var(--bg-primary); border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 16px;">Zaloguj się</button>
-    </form>
+      <section class="section">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number" id="stat-level">1</div>
+            <div class="stat-name">Poziom</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="stat-xp">0</div>
+            <div class="stat-name">XP</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="stat-rank">Rookie</div>
+            <div class="stat-name">Ranga</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="stat-posts">0</div>
+            <div class="stat-name">Posty</div>
+          </div>
+        </div>
+      </section>
 
-    <div style="margin: 1.5rem 0; position: relative;">
-      <div style="border-top: 1px solid var(--gold-dark);"></div>
-      <span style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--bg-card); padding: 0 0.5rem; color: var(--text-muted); font-size: 12px;">lub</span>
+      <section class="section">
+        <h3 class="section-title">O mnie</h3>
+        <textarea id="profile-bio" class="input" placeholder="Napisz coś o sobie..." style="height: 80px;"></textarea>
+        <button id="save-bio-btn" class="btn btn-primary" style="margin-top: 1rem;">Zapisz</button>
+      </section>
+
+      <section class="section">
+        <h3 class="section-title">🏅 Osiągnięcia</h3>
+        <div id="achievements-list" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;"></div>
+      </section>
     </div>
+  </main>
 
-    <button id="google-btn" type="button" style="padding: 12px; background: #db4437; color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 16px; width: 100%;">🔵 Google</button>
-
-    <p style="margin-top: 1.5rem; color: var(--text-secondary); font-size: 14px;">
-      Nie masz konta? <a href="register.html" style="color: var(--gold-light);">Zarejestruj się</a>
-    </p>
-  </div>
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><span class="nav-icon">🏰</span><span class="nav-label">Arena</span></a>
+    <a href="feed.html" class="nav-item"><span class="nav-icon">📜</span><span class="nav-label">Kroniki</span></a>
+    <a href="challenges.html" class="nav-item nav-hero"><span class="nav-icon">⚔️</span><span class="nav-label">Misje</span></a>
+    <a href="ranking.html" class="nav-item"><span class="nav-icon">🏆</span><span class="nav-label">Chwała</span></a>
+  </nav>
 </div>
 
 <script type="module">
-  import { loginWithEmail, loginWithGoogle, checkAuth } from './js/auth.js';
+  import { checkAuth, logout, showToast } from './js/auth.js';
+  import { db, COL } from './js/firebase.js';
+  import { doc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
-  checkAuth((user) => {
-    if (user) window.location.href = 'index.html';
+  checkAuth((user, userData) => {
+    if (!user) {
+      window.location.href = 'login.html';
+      return;
+    }
+
+    // Załaduj dane profilu
+    document.getElementById('profile-name').textContent = userData.displayName || 'Wojownik';
+    document.getElementById('profile-username').textContent = '@' + (userData.username || user.email.split('@')[0]);
+    document.getElementById('stat-level').textContent = userData.level || 1;
+    document.getElementById('stat-xp').textContent = userData.points || 0;
+    document.getElementById('stat-rank').textContent = userData.rank || 'Rookie';
+    document.getElementById('stat-posts').textContent = userData.postsCount || 0;
+    document.getElementById('profile-bio').value = userData.bio || '';
+    
+    const avatar = (userData.displayName || 'W').charAt(0).toUpperCase();
+    document.getElementById('profile-avatar').textContent = avatar;
+
+    // Osiągnięcia
+    const achievementsContainer = document.getElementById('achievements-list');
+    const achievements = ['🏅', '⭐', '🎖️', '🏆', '💎', '🔥', '⚔️', '👑'];
+    achievementsContainer.innerHTML = achievements.map(a => `<div style="font-size: 32px; text-align: center;">${a}</div>`).join('');
+
+    // Zapisz bio
+    document.getElementById('save-bio-btn').addEventListener('click', async () => {
+      const bio = document.getElementById('profile-bio').value;
+      try {
+        await updateDoc(doc(db, COL.USERS, user.uid), { bio });
+        showToast('✅ Bio zaktualizowane', 'success');
+      } catch (err) {
+        showToast('❌ Błąd', 'error');
+      }
+    });
   });
 
-  document.getElementById('login-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    try {
-      await loginWithEmail(
-        document.getElementById('email').value,
-        document.getElementById('password').value
-      );
-      window.location.href = 'index.html';
-    } catch (err) {}
-  });
-
-  document.getElementById('google-btn').addEventListener('click', async () => {
-    try {
-      await loginWithGoogle();
-      window.location.href = 'index.html';
-    } catch (err) {}
+  // Wylogowanie
+  document.getElementById('logout-btn').addEventListener('click', () => {
+    logout();
   });
 </script>
 </body>
