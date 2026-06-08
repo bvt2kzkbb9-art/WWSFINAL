@@ -1,5 +1,5 @@
-import { db, COL, getLevel, getRank } from './firebase.js';
-import { doc, getDoc, updateDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+import { db, COL } from './firebase.js';
+import { doc, getDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
 export async function loadProfile(user, userData) {
   if (!user || !userData) return;
@@ -12,7 +12,14 @@ export async function loadProfile(user, userData) {
   document.getElementById('stat-posts').textContent = userData.postsCount || 0;
   document.getElementById('profile-bio').value = userData.bio || '';
 
-  document.getElementById('top-avatar').textContent = (userData.displayName || 'W').charAt(0).toUpperCase();
+  const avatar = (userData.displayName || 'W').charAt(0).toUpperCase();
+  document.getElementById('profile-avatar').textContent = avatar;
+
+  const achievementsContainer = document.getElementById('achievements-list');
+  if (achievementsContainer) {
+    const achievements = ['🏅', '⭐', '🎖️', '🏆', '💎', '🔥', '⚔️', '👑'];
+    achievementsContainer.innerHTML = achievements.map(a => `<div style="font-size: 32px; text-align: center;">${a}</div>`).join('');
+  }
 
   document.getElementById('save-bio-btn').addEventListener('click', async () => {
     const bio = document.getElementById('profile-bio').value;
@@ -23,12 +30,6 @@ export async function loadProfile(user, userData) {
       showToast('❌ Błąd', 'error');
     }
   });
-
-  const achievementsContainer = document.getElementById('achievements-list');
-  if (achievementsContainer) {
-    const achievements = ['🏅', '⭐', '🎖️', '🏆', '💎', '🔥', '⚔️', '👑'];
-    achievementsContainer.innerHTML = achievements.map(a => `<div style="font-size: 32px; text-align: center;">${a}</div>`).join('');
-  }
 }
 
 function showToast(msg, type) {
