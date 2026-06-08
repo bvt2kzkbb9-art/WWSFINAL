@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+  <title>Wiadomości — Weekend Warrior Social</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<div class="app-container">
+  <header class="top-bar">
+    <div class="top-bar-left"><h1 class="app-title">💬 Wiadomości</h1></div>
+    <nav class="top-bar-right">
+      <button id="new-msg-btn" class="icon-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></button>
+      <a href="profile.html" class="avatar-btn" id="top-avatar">⚔️</a>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <div class="page-container">
+      <!-- CONVERSATIONS LIST -->
+      <div id="conversations-list"></div>
+    </div>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><span class="nav-icon">🏰</span><span class="nav-label">Arena</span></a>
+    <a href="feed.html" class="nav-item"><span class="nav-icon">📜</span><span class="nav-label">Kroniki</span></a>
+    <a href="challenges.html" class="nav-item nav-hero"><span class="nav-icon">⚔️</span><span class="nav-label">Misje</span></a>
+    <a href="ranking.html" class="nav-item"><span class="nav-icon">🏆</span><span class="nav-label">Chwała</span></a>
+  </nav>
+</div>
+
+<script type="module">
+  import { checkAuth } from './js/auth.js';
+  import { loadMessages } from './js/messages.js';
+
+  checkAuth((user) => {
+    if (!user) window.location.href = 'login.html';
+    else loadMessages();
+  });
+</script>
+</body>
+</html>
