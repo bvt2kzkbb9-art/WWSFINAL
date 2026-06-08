@@ -76,7 +76,6 @@ export async function registerWithEmail(email, password, displayName) {
     showToast('✅ Konto utworzone!', 'success');
     return user;
   } catch (err) {
-    console.error('[registerWithEmail]', err.code);
     const msg = err.code === 'auth/email-already-in-use' ? 'Email już w użyciu' :
                 err.code === 'auth/weak-password' ? 'Hasło za słabe' : err.message;
     showToast('❌ ' + msg, 'error');
@@ -90,7 +89,6 @@ export async function loginWithEmail(email, password) {
     showToast('✅ Zalogowano!', 'success');
     return user;
   } catch (err) {
-    console.error('[loginWithEmail]', err.code);
     showToast('❌ Email lub hasło niepoprawne', 'error');
     throw err;
   }
@@ -103,7 +101,6 @@ export async function loginWithGoogle() {
     showToast('✅ Zalogowano przez Google!', 'success');
     return user;
   } catch (err) {
-    console.error('[loginWithGoogle]', err.code);
     showToast('❌ Błąd logowania Google', 'error');
     throw err;
   }
@@ -114,7 +111,6 @@ export async function logout() {
     await signOut(auth);
     window.location.href = 'login.html';
   } catch (err) {
-    console.error('[logout]', err);
     showToast('❌ Błąd wylogowania', 'error');
   }
 }
