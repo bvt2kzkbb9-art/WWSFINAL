@@ -1,5 +1,5 @@
-import { db, COL } from './firebase.js';
-import { collection, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+import { db, COL, serverTimestamp } from './firebase.js';
+import { collection, addDoc, query, where, onSnapshot, orderBy } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
 export async function loadMessages() {
   const container = document.getElementById('conversations-list');
@@ -19,4 +19,20 @@ export async function loadMessages() {
       </div>
     </div>
   `;
+}
+
+export async function sendMessage(conversationId, content, senderId) {
+  try {
+    await addDoc(collection(db, COL.MESSAGES), {
+      conversationId,
+      senderId,
+      content,
+      createdAt: serverTimestamp(),
+      read: false,
+    });
+    return true;
+  } catch (err) {
+    console.error('Send message error:', err);
+    return false;
+  }
 }
