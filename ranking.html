@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+  <title>Sala Chwały — Weekend Warrior Social</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<div class="app-container">
+  <header class="top-bar">
+    <div class="top-bar-left"><h1 class="app-title">🏆 Sala Chwały</h1></div>
+    <nav class="top-bar-right">
+      <a href="profile.html" class="avatar-btn" id="top-avatar">⚔️</a>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <div class="page-container">
+      <!-- FILTERS -->
+      <section class="section">
+        <div class="filter-tabs">
+          <button class="filter-btn active" data-filter="xp">💎 XP</button>
+          <button class="filter-btn" data-filter="challenges">⚔️ Wyzwania</button>
+          <button class="filter-btn" data-filter="streak">🔥 Seria</button>
+        </div>
+      </section>
+
+      <!-- PODIUM -->
+      <section class="podium-section">
+        <div class="podium">
+          <div class="podium-place podium-2" id="podium-2">
+            <div class="podium-medal">🥈</div>
+            <div class="podium-name">-</div>
+            <div class="podium-value">0</div>
+          </div>
+          <div class="podium-place podium-1" id="podium-1">
+            <div class="podium-medal">🥇</div>
+            <div class="podium-name">-</div>
+            <div class="podium-value">0</div>
+          </div>
+          <div class="podium-place podium-3" id="podium-3">
+            <div class="podium-medal">🥉</div>
+            <div class="podium-name">-</div>
+            <div class="podium-value">0</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MY POSITION -->
+      <section class="section">
+        <div class="my-position-card">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-size: 12px; color: var(--text-muted);">Twoja pozycja</div>
+              <div style="font-size: 20px; color: var(--gold-light); font-weight: 700;" id="my-position">-</div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-size: 12px; color: var(--text-muted);">Punkty</div>
+              <div style="font-size: 20px; color: var(--gold-light); font-weight: 700;" id="my-points">0</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LEADERBOARD -->
+      <section class="section">
+        <h3 class="section-title">Ranking</h3>
+        <div id="leaderboard-list"></div>
+      </section>
+    </div>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><span class="nav-icon">🏰</span><span class="nav-label">Arena</span></a>
+    <a href="feed.html" class="nav-item"><span class="nav-icon">📜</span><span class="nav-label">Kroniki</span></a>
+    <a href="challenges.html" class="nav-item nav-hero"><span class="nav-icon">⚔️</span><span class="nav-label">Misje</span></a>
+    <a href="ranking.html" class="nav-item active"><span class="nav-icon">🏆</span><span class="nav-label">Chwała</span></a>
+  </nav>
+</div>
+
+<script type="module">
+  import { checkAuth } from './js/auth.js';
+  import { loadRanking } from './js/ranking.js';
+
+  checkAuth((user) => {
+    if (!user) window.location.href = 'login.html';
+    else loadRanking();
+  });
+</script>
+</body>
+</html>
