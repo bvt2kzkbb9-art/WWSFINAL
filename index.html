@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+  <meta name="theme-color" content="#1a1410"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Arena Wojowników"/>
+  <title>Arena Wojowników — Weekend Warrior Social</title>
+  <link rel="manifest" href="manifest.json"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<div class="app-container">
+  <!-- TOP BAR -->
+  <header class="top-bar">
+    <div class="top-bar-left">
+      <h1 class="app-title">⚔️ Arena Wojowników</h1>
+    </div>
+    <nav class="top-bar-right">
+      <button id="search-btn" class="icon-btn" aria-label="Szukaj">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </button>
+      <button id="messages-btn" class="icon-btn" aria-label="Wiadomości">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+        </svg>
+        <span id="msg-badge" class="badge">0</span>
+      </button>
+      <button id="notif-btn" class="icon-btn" aria-label="Powiadomienia">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/>
+        </svg>
+        <span id="notif-badge" class="badge">0</span>
+      </button>
+      <a href="profile.html" class="avatar-btn" id="top-avatar">⚔️</a>
+    </nav>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    <div class="page-container">
+      <!-- HERO -->
+      <section class="hero-section">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+          <h2 class="hero-title">Arena Wojowników</h2>
+          <p class="hero-subtitle">Wyzwania. Walka. Chwała.</p>
+          <div class="hero-stats">
+            <div class="stat-box">
+              <div class="stat-value" id="user-level">1</div>
+              <div class="stat-label">Poziom</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value" id="user-xp">0</div>
+              <div class="stat-label">XP</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value" id="user-rank">Rookie</div>
+              <div class="stat-label">Ranga</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHALLENGES CAROUSEL -->
+      <section class="section">
+        <h3 class="section-title">🎯 Wyzwania</h3>
+        <div class="carousel" id="challenges-carousel"></div>
+      </section>
+
+      <!-- QUICK ACTIONS -->
+      <section class="section">
+        <div class="quick-actions">
+          <a href="feed.html" class="action-btn">
+            <span class="action-icon">📜</span>
+            <span class="action-label">Kroniki</span>
+          </a>
+          <a href="challenges.html" class="action-btn">
+            <span class="action-icon">⚔️</span>
+            <span class="action-label">Misje</span>
+          </a>
+          <a href="ranking.html" class="action-btn">
+            <span class="action-icon">🏆</span>
+            <span class="action-label">Chwała</span>
+          </a>
+          <a href="friends.html" class="action-btn">
+            <span class="action-icon">🤝</span>
+            <span class="action-label">Znajomi</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- RECENT ACTIVITY -->
+      <section class="section">
+        <h3 class="section-title">📰 Ostatnia aktywność</h3>
+        <div id="activity-feed"></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item active">
+      <span class="nav-icon">🏰</span>
+      <span class="nav-label">Arena</span>
+    </a>
+    <a href="feed.html" class="nav-item">
+      <span class="nav-icon">📜</span>
+      <span class="nav-label">Kroniki</span>
+    </a>
+    <a href="challenges.html" class="nav-item nav-hero">
+      <span class="nav-icon">⚔️</span>
+      <span class="nav-label">Misje</span>
+    </a>
+    <a href="ranking.html" class="nav-item">
+      <span class="nav-icon">🏆</span>
+      <span class="nav-label">Chwała</span>
+    </a>
+  </nav>
+</div>
+
+<script type="module">
+  import { checkAuth } from './js/auth.js';
+  import { loadChallengesCarousel, loadRecentActivity } from './js/arena.js';
+
+  checkAuth(async (user, userData) => {
+    if (!user) {
+      window.location.href = 'login.html';
+      return;
+    }
+    
+    document.getElementById('top-avatar').textContent = (userData?.displayName || 'W').charAt(0).toUpperCase();
+    document.getElementById('user-level').textContent = userData?.level || 1;
+    document.getElementById('user-xp').textContent = userData?.points || 0;
+    document.getElementById('user-rank').textContent = userData?.rank || 'Rookie';
+    
+    await loadChallengesCarousel();
+    await loadRecentActivity();
+  });
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  }
+</script>
+</body>
+</html>
