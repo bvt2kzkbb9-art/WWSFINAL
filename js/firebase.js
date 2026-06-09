@@ -5,25 +5,23 @@ import {
   updateProfile, sendPasswordResetEmail,
   GoogleAuthProvider, signInWithPopup,
 } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-impor
-};// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAnR0Q3MmOXkEUfMLdgbVGNFyD1o0hEIaY",
-  authDomain: "weekend-warrior-social-v3.firebaseapp.com",
-  databaseURL: "https://weekend-warrior-social-v3-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "weekend-warrior-social-v3",
-  storageBucket: "weekend-warrior-social-v3.firebasestorage.app",
-  messagingSenderId: "257482203896",
-  appId: "1:257482203896:web:46c3906a32a5ca38ba510d"
-};
 
+  apiKey: "AIzaSyAnR0Q3MmOXkEUfMLdgbVGNFyD1o0hEIaY",
+
+  authDomain: "weekend-warrior-social-v3.firebaseapp.com",
+
+  databaseURL: "https://weekend-warrior-social-v3-default-rtdb.europe-west1.firebasedatabase.app",
+
+  projectId: "weekend-warrior-social-v3",
+
+  storageBucket: "weekend-warrior-social-v3.firebasestorage.app",
+
+  messagingSenderId: "257482203896",
+
+  appId: "1:257482203896:web:46c3906a32a5ca38ba510d"
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
