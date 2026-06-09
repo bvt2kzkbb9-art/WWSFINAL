@@ -70,10 +70,10 @@
 </div>
 
 <script type="module">
-  import { checkAuth, logout, showToast } from './js/auth.js';
+  
   import { db, COL } from './js/firebase.js';
   import { doc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-
+import { loginWithEmail, loginWithGoogle } from './js/auth.js';
   checkAuth((user, userData) => {
     if (!user) {
       window.location.href = 'login.html';
@@ -101,7 +101,7 @@
     document.getElementById('save-bio-btn').addEventListener('click', async () => {
       const bio = document.getElementById('profile-bio').value;
       try {
-        await updateDoc(doc(db, COL.USERS, user.uid), { bio });
+        await loginWithEmail(email, password);
         showToast('✅ Bio zaktualizowane', 'success');
       } catch (err) {
         showToast('❌ Błąd', 'error');
