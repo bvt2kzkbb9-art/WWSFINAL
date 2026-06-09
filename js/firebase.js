@@ -5,6 +5,21 @@ import {
   updateProfile, sendPasswordResetEmail,
   GoogleAuthProvider, signInWithPopup,
 } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+import {
+  getFirestore,
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  query,
+  where,
+  orderBy,
+  limit,
+  onSnapshot
+} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 const firebaseConfig = {
 
   apiKey: "AIzaSyAnR0Q3MmOXkEUfMLdgbVGNFyD1o0hEIaY",
